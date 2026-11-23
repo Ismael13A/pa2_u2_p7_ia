@@ -29,6 +29,10 @@ public class Pedido {
     @Column (name ="pedd_fecha")//nombre de la columna en la base de datos
     private LocalDateTime fecha;
     
+    @Override
+    public String toString() {
+        return "Pedido [id=" + id + ", producto=" + producto + ", precio=" + precio + ", fecha=" + fecha + "]";
+    }
     public Integer getId() {
         return id;
     }
