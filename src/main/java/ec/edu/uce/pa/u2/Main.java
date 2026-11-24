@@ -1,6 +1,7 @@
 package ec.edu.uce.pa.u2;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import ec.edu.uce.pa.u2.pedidos.application.PedidoService;
 import ec.edu.uce.pa.u2.pedidos.domain.model.Pedido;
@@ -23,24 +24,48 @@ public class Main implements QuarkusApplication {
         System.out.println("Hello, Quarkus!");
 
         //CREATE (insert)
-        
         Pedido pedido = new Pedido();
-        pedido.setProducto("Televisor");
-        pedido.setPrecio(100.0);
+        pedido.setProducto("producto 2");
+        pedido.setPrecio(500.0);
         pedido.setFecha(LocalDateTime.now());
-
         this.pedidoService.guardar(pedido);
+ 
+        //READ (find)
+       // Pedido pedido2 = this.pedidoService.buscarPorId(2);
         
-       //READ (buscar)
-       Pedido pedido1 = this.pedidoService.buscarPorId(1);
-       System.out.println("Pedido encontrado: " + pedido1);
+        //UPDATE (update)
+        System.out.println("Valor anterior: " + pedido);
+        pedido.setPrecio(300.00);
+        this.pedidoService.actualizar(pedido);
+       
+        System.out.println("Pedido actualizado: " + this.pedidoService.buscarPorId(2));
+ 
+        //DELETE (delete)
+        this.pedidoService.eliminar(2);
 
-       pedido.setPrecio(200.0);
-       this.pedidoService.actualizar(pedido1);
+        Optional<Pedido> pedido2 = this.pedidoService.buscarPorId(2);
+        if(pedido2.isPresent()) {
+            System.out.println("Pedido encontrado: " + pedido2.get());
+        } else {
+            System.out.println("Pedido no encontrado");
+        }
 
-       Pedido pedido2 = this.pedidoService.buscarPorId(1);
-        System.out.println("Pedido Actualizado: " + pedido2);
+        //READBYNUMBER
+
+        pedido.setNumero("PED-0001");
+         this.pedidoService.actualizar(pedido);
+
+        Optional <Pedido> pedidoByNumer=this.pedidoService.buscarPorNumero("PED-0001");
+        if(pedidoByNumer.isPresent()){
+            System.out.println("Pedido encotnrado por numero:"+pedidoByNumer.get());
+
+        }else{
+               System.out.println("Pedido no encontrado");
+
+        }
+
         return 0;
+ 
     }
 
 }
